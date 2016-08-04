@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent myIntent = new Intent(MainActivity.this, ImagesActivity.class);
+                    Intent myIntent = new Intent(MainActivity.this, ListViewActivty.class);
                     myIntent.putExtra("test", finalI);
                     myIntent.putExtra("view", 1);
                     startActivity(myIntent, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this,
-                            mViewPager2, "viewpager").toBundle()
+                            mViewPager2, "list").toBundle()
                     );
                 }
             });

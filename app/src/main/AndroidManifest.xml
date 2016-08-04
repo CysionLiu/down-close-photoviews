@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ImagesActivity"></activity>
+        <activity android:name=".ListViewActivty"></activity>
     </application>
 
 </manifest>
