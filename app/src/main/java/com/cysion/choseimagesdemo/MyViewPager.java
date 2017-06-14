@@ -3,7 +3,6 @@ package com.cysion.choseimagesdemo;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -61,30 +60,6 @@ public class MyViewPager extends ViewPager {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        int action = ev.getAction();
-//        switch (action) {
-//            case MotionEvent.ACTION_DOWN:
-//                downY = ev.getY();
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                Log.e("flag--","onTouchEvent(MyViewPager.java:41)---->>"+downY);
-//                Log.e("flag--","onTouchEvent(MyViewPager.java:43)---->>"+ev.getY());
-//                if (ev.getY()-downY>100) {
-//                    mOnDownListener.scrollDown();
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//
-//                break;
-//            default:
-//
-//                break;
-//        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
         switch (action) {
@@ -95,8 +70,7 @@ public class MyViewPager extends ViewPager {
             case MotionEvent.ACTION_MOVE:
                 View ppp= ((HomePagerAdapter)getAdapter()).getPrimaryItem();
                 float top = ((LongImageView) ppp).getTargetRect().top;
-                Log.e("flag--","onInterceptTouchEvent(MyViewPager.java:97)---->>"+top);
-                if (ev.getY()-downY>100&&top<10) {
+                if (ev.getY()-downY>100&&top<30) {
                     mOnDownListener.scrollDown(ev.getY()-lastY);
                     lastY  = ev.getY();
                     return true;

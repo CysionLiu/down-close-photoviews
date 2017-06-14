@@ -55,7 +55,7 @@ public class ImagesActivity extends AppCompatActivity {
                 Log.e("flag--","scrollDown(ImagesActivity.java:55)---->>"+y);
                 mViewPager.scrollBy(0, -(int) y);
                 if (y==0) {
-                    mViewPager.scrollTo(0,0);
+                    mViewPager.scrollTo(mViewPager.getScrollX(),0);
                 }
             }
         });

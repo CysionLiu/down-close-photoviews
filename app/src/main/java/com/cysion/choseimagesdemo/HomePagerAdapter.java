@@ -4,8 +4,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cysion.choseimagesdemo.longimg.LongImageView;
-
 import java.util.List;
 
 /**
@@ -13,9 +11,9 @@ import java.util.List;
  */
 public class HomePagerAdapter extends PagerAdapter {
 
-    List<LongImageView> imgs;
+    List<? extends View> imgs;
 
-    public HomePagerAdapter(List<LongImageView> data) {
+    public HomePagerAdapter(List<? extends View> data) {
         imgs = data;
     }
 
