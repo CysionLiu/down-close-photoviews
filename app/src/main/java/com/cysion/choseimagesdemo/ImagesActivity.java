@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 
 import com.cysion.choseimagesdemo.longimg.LongImageView;
+import com.cysion.choseimagesdemo.photoview.PhotoView;
 import com.cysion.choseimagesdemo.photoview.PhotoViewAttacher;
 
 import java.util.ArrayList;
@@ -40,11 +42,17 @@ public class ImagesActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        final List<LongImageView> data = new ArrayList<>();
+        final List<View> data = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            LongImageView img = new LongImageView(this);
-            img.setImage(ImgModel.imgSet[i]);
-            data.add(img);
+            PhotoView temp = new PhotoView(this);
+            temp.setImageResource(ImgModel.imgSet[i]);
+            if (temp.getDrawable().getIntrinsicHeight() < 2000) {
+                data.add(temp);
+            } else {
+                LongImageView img = new LongImageView(this);
+                img.setImage(ImgModel.imgSet[i]);
+                data.add(img);
+            }
         }
         HomePagerAdapter adapter = new HomePagerAdapter(data);
         mViewPager.setAdapter(adapter);
@@ -52,10 +60,10 @@ public class ImagesActivity extends AppCompatActivity {
         mViewPager.setOnDownListener(new MyViewPager.OnDownListener() {
             @Override
             public void scrollDown(float y) {
-                Log.e("flag--","scrollDown(ImagesActivity.java:55)---->>"+y);
+                Log.e("flag--", "scrollDown(ImagesActivity.java:55)---->>" + y);
                 mViewPager.scrollBy(0, -(int) y);
-                if (y==0) {
-                    mViewPager.scrollTo(mViewPager.getScrollX(),0);
+                if (y == 0) {
+                    mViewPager.scrollTo(mViewPager.getScrollX(), 0);
                 }
             }
         });

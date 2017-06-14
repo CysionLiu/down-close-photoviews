@@ -3,10 +3,12 @@ package com.cysion.choseimagesdemo;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.cysion.choseimagesdemo.longimg.LongImageView;
+import com.cysion.choseimagesdemo.photoview.PhotoView;
 
 /**
  * Created by Administrator on 2017/6/14.
@@ -22,7 +24,7 @@ public class MyViewPager extends ViewPager {
         mOnDownListener = aOnDownListener;
     }
 
-    public static interface OnDownListener{
+    public static interface OnDownListener {
         void scrollDown(float y);
     }
 
@@ -42,9 +44,9 @@ public class MyViewPager extends ViewPager {
                 downY = ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (ev.getY()-downY>100) {
-                    mOnDownListener.scrollDown(ev.getY()-lastY);
-                    lastY  = ev.getY();
+                if (ev.getY() - downY > 100) {
+                    mOnDownListener.scrollDown(ev.getY() - lastY);
+                    lastY = ev.getY();
                     return true;
                 }
 
@@ -65,16 +67,28 @@ public class MyViewPager extends ViewPager {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 downY = ev.getY();
-                lastY  = ev.getY();
+                lastY = ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                View ppp= ((HomePagerAdapter)getAdapter()).getPrimaryItem();
-                float top = ((LongImageView) ppp).getTargetRect().top;
-                if (ev.getY()-downY>100&&top<30) {
-                    mOnDownListener.scrollDown(ev.getY()-lastY);
-                    lastY  = ev.getY();
-                    return true;
+                float top = 0;
+                View ppp = ((HomePagerAdapter) getAdapter()).getPrimaryItem();
+                if (ppp instanceof PhotoView) {
+                    top = ((PhotoView) ppp).getDisplayRect().top;
+                    Log.e("flag--","onInterceptTouchEvent(MyViewPager.java:76)---->>"+top);
+                    if (ev.getY() - downY > 100 && top == 0) {
+                        mOnDownListener.scrollDown(ev.getY() - lastY);
+                        lastY = ev.getY();
+                        return true;
+                    }
+                } else {
+                    top = ((LongImageView) ppp).getTargetRect().top;
+                    if (ev.getY() - downY > 100 && top < 30) {
+                        mOnDownListener.scrollDown(ev.getY() - lastY);
+                        lastY = ev.getY();
+                        return true;
+                    }
                 }
+
                 break;
             case MotionEvent.ACTION_UP:
 
