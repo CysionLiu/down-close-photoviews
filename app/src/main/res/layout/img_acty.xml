@@ -3,14 +3,16 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#ff000000"
+              android:clipChildren="false"
+              android:layout_margin="-200dp"
               android:orientation="vertical">
 
 
-    <android.support.v4.view.ViewPager
+    <com.cysion.choseimagesdemo.MyViewPager
         android:layout_margin="10dp"
         android:id="@+id/vp_img_banner"
         android:layout_width="match_parent"
         android:transitionName="viewpager"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content"></com.cysion.choseimagesdemo.MyViewPager>
 
 </LinearLayout>

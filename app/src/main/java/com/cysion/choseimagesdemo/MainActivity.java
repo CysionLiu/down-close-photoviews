@@ -8,7 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
+
+import com.cysion.choseimagesdemo.longimg.LongImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewPager1() {
-        List<ImageView> data = new ArrayList<>();
+        List<LongImageView> data = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            ImageView img = new ImageView(this);
+            LongImageView img = new LongImageView(this);
             final int finalI = i;
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
             });
-            img.setImageResource(ImgModel.imgSet[i]);
+            img.setImage(ImgModel.imgSet[i]);
             data.add(img);
         }
         HomePagerAdapter adapter = new HomePagerAdapter(data);
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewPager2() {
-        List<ImageView> data = new ArrayList<>();
+        List<LongImageView> data = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            ImageView img = new ImageView(this);
+            LongImageView img = new LongImageView(this);
             final int finalI = i;
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
             });
-            img.setImageResource(ImgModel.imgSet[i]);
+            img.setImage(ImgModel.imgSet[i]);
             data.add(img);
         }
         HomePagerAdapter adapter = new HomePagerAdapter(data);

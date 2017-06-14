@@ -3,7 +3,8 @@ package com.cysion.choseimagesdemo;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
+import com.cysion.choseimagesdemo.longimg.LongImageView;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ import java.util.List;
  */
 public class HomePagerAdapter extends PagerAdapter {
 
-    List<ImageView> imgs;
+    List<LongImageView> imgs;
 
-    public HomePagerAdapter(List<ImageView> data) {
+    public HomePagerAdapter(List<LongImageView> data) {
         imgs = data;
     }
 
@@ -43,5 +44,14 @@ public class HomePagerAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView(imgs.get(position));
     }
+    private View mCurrentView;
 
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        mCurrentView = (View)object;
+    }
+
+    public View getPrimaryItem() {
+        return mCurrentView;
+    }
 }

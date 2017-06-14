@@ -3,10 +3,12 @@ package com.cysion.choseimagesdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
-import android.widget.ImageView;
+
+import com.cysion.choseimagesdemo.longimg.LongImageView;
+import com.cysion.choseimagesdemo.photoview.PhotoViewAttacher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,8 @@ public class ImagesActivity extends AppCompatActivity {
 
     private int mTest;
     private int mViewId;
-    private ViewPager mViewPager;
+    private MyViewPager mViewPager;
+    private PhotoViewAttacher mMAttacher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,21 +33,32 @@ public class ImagesActivity extends AppCompatActivity {
         mViewId = intent.getIntExtra("view", 0);
         initView();
     }
+
     private void initView() {
-        mViewPager = (ViewPager) findViewById(R.id.vp_img_banner);
+        mViewPager = (MyViewPager) findViewById(R.id.vp_img_banner);
         initViewPager();
     }
 
     private void initViewPager() {
-        List<ImageView> data = new ArrayList<>();
+        final List<LongImageView> data = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            ImageView img = new ImageView(this);
-            img.setImageResource(ImgModel.imgSet[i]);
+            LongImageView img = new LongImageView(this);
+            img.setImage(ImgModel.imgSet[i]);
             data.add(img);
         }
         HomePagerAdapter adapter = new HomePagerAdapter(data);
         mViewPager.setAdapter(adapter);
-        mViewPager.setCurrentItem(mTest,false);
+        mViewPager.setCurrentItem(mTest, false);
+        mViewPager.setOnDownListener(new MyViewPager.OnDownListener() {
+            @Override
+            public void scrollDown(float y) {
+                Log.e("flag--","scrollDown(ImagesActivity.java:55)---->>"+y);
+                mViewPager.scrollBy(0, -(int) y);
+                if (y==0) {
+                    mViewPager.scrollTo(0,0);
+                }
+            }
+        });
     }
 
     @Override
