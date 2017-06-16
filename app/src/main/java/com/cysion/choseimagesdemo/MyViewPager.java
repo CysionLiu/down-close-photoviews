@@ -71,18 +71,32 @@ public class MyViewPager extends ViewPager {
                 break;
             case MotionEvent.ACTION_MOVE:
                 float top = 0;
+                float left = 0;
+                float right = 0;
+                if (ev.getPointerCount() > 1) {
+                    return false;
+                }
                 View ppp = ((HomePagerAdapter) getAdapter()).getPrimaryItem();
                 if (ppp instanceof PhotoView) {
                     top = ((PhotoView) ppp).getDisplayRect().top;
-                    Log.e("flag--","onInterceptTouchEvent(MyViewPager.java:76)---->>"+top);
-                    if (ev.getY() - downY > 100 && top == 0) {
+                    left = ((PhotoView) ppp).getDisplayRect().left;
+                    right = ((PhotoView) ppp).getDisplayRect().right;
+                    Log.e("flag--", "onInterceptTouchEvent(MyViewPager.java:84)-->>" + left);
+                    Log.e("flag--", "onInterceptTouchEvent(MyViewPager.java:85)-->>" + right);
+                    Log.e("flag--", "onInterceptTouchEvent(MyViewPager.java:86)-->>" + ((PhotoView) ppp).getScale());
+                    if (right > getResources().getDisplayMetrics().widthPixels + 50 && ev.getY() - downY < 200
+                            && ((PhotoView) ppp).getScale() > 1.1f && left < 0) {
+                        Log.e("flag--", "onInterceptTouchEvent(MyViewPager.java:89)-->>");
+                        return false;
+                    }
+                    if (ev.getY() - downY > 200 && top == 0) {
                         mOnDownListener.scrollDown(ev.getY() - lastY);
                         lastY = ev.getY();
                         return true;
                     }
                 } else {
                     top = ((LongImageView) ppp).getTargetRect().top;
-                    if (ev.getY() - downY > 100 && top < 30) {
+                    if (ev.getY() - downY > 200 && top < 30) {
                         mOnDownListener.scrollDown(ev.getY() - lastY);
                         lastY = ev.getY();
                         return true;

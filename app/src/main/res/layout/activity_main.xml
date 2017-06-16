@@ -6,20 +6,22 @@
 
 
     <android.support.v4.view.ViewPager
-        android:layout_marginTop="50dp"
+        android:layout_margin="100dp"
         android:id="@+id/vp_home_banner"
         android:layout_width="match_parent"
         android:transitionName="viewpager"
-        android:layout_height="180dp"></android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
     <android.support.v4.view.ViewPager
         android:layout_marginTop="50dp"
         android:id="@+id/vp_home_banner2"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:transitionName="list"
         android:layout_height="180dp"></android.support.v4.view.ViewPager>
     <Button
         android:text="微信效果的实现"
+        android:visibility="gone"
         android:onClick="changePageWithoutAnim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

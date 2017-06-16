@@ -20,6 +20,7 @@ import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -174,20 +175,63 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	 * {@link View#onDetachedFromWindow()} or from {@link android.app.Activity#onDestroy()}.
 	 * This is automatically called if you are using {@link uk.co.senab.photoview.PhotoView}.
 	 */
+//	@SuppressWarnings("deprecation")
+//	public final void cleanup() {
+//		if (null != mImageView) {
+//			mImageView.get().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//		}
+//		mViewTreeObserver = null;
+//
+//		// Clear listeners too
+//		mMatrixChangeListener = null;
+//		mPhotoTapListener = null;
+//		mViewTapListener = null;
+//
+//		// Finally, clear ImageView
+//		mImageView = null;
+//	}
+
 	@SuppressWarnings("deprecation")
 	public final void cleanup() {
-		if (null != mImageView) {
-			mImageView.get().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+		{
+			if (null != mImageView) {
+				mImageView.get().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+			}
+
+			if (null != mViewTreeObserver && mViewTreeObserver.isAlive()) {
+				mViewTreeObserver.removeOnGlobalLayoutListener(this);
+
+				mViewTreeObserver = null;
+
+				// Clear listeners too
+				mMatrixChangeListener = null;
+				mPhotoTapListener = null;
+				mViewTapListener = null;
+				// Finally, clear ImageView
+				mImageView = null;
+			}
+
 		}
-		mViewTreeObserver = null;
+		else
+		{
+			if (null != mImageView) {
+				mImageView.get().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			}
 
-		// Clear listeners too
-		mMatrixChangeListener = null;
-		mPhotoTapListener = null;
-		mViewTapListener = null;
+			if (null != mViewTreeObserver && mViewTreeObserver.isAlive()) {
+				mViewTreeObserver.removeGlobalOnLayoutListener(this);
 
-		// Finally, clear ImageView
-		mImageView = null;
+				mViewTreeObserver = null;
+
+				// Clear listeners too
+				mMatrixChangeListener = null;
+				mPhotoTapListener = null;
+				mViewTapListener = null;
+				// Finally, clear ImageView
+				mImageView = null;
+			}
+		}
 	}
 
 	@Override
@@ -206,8 +250,12 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 		// If we don't have an ImageView, call cleanup()
 		if (null == imageView) {
 			cleanup();
-			throw new IllegalStateException(
-					"ImageView no longer exists. You should not use this PhotoViewAttacher any more.");
+			try {
+				throw new IllegalStateException(
+						"ImageView no longer exists. You should not use this PhotoViewAttacher any more.");
+			} catch (Exception e) {
+				Log.w("PhotoViewAttacher", "[IllegalStateException] e = "+e.toString());
+			}
 		}
 
 		return imageView;

@@ -3,6 +3,7 @@ package com.cysion.choseimagesdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ public class ImagesActivity extends AppCompatActivity {
     private int mViewId;
     private MyViewPager mViewPager;
     private PhotoViewAttacher mMAttacher;
+    private float totalY = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,16 +56,32 @@ public class ImagesActivity extends AppCompatActivity {
                 data.add(img);
             }
         }
-        HomePagerAdapter adapter = new HomePagerAdapter(data);
+        final HomePagerAdapter adapter = new HomePagerAdapter(data);
         mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(mTest, false);
         mViewPager.setOnDownListener(new MyViewPager.OnDownListener() {
             @Override
             public void scrollDown(float y) {
                 Log.e("flag--", "scrollDown(ImagesActivity.java:55)---->>" + y);
+                totalY += y;
                 mViewPager.scrollBy(0, -(int) y);
                 if (y == 0) {
+                    if (totalY > 800) {
+                        finish();
+                        return;
+                    }
+                    totalY = 0;
                     mViewPager.scrollTo(mViewPager.getScrollX(), 0);
+                }
+            }
+        });
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                View ppp = adapter.getPrimaryItem();
+                if (ppp instanceof PhotoView) {
+//                    ((PhotoView) ppp).zoomTo(1, 1, 1);
                 }
             }
         });
